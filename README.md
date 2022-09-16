@@ -9,6 +9,9 @@ to get started in development, first make sure you have [poetry](https://python-
 $ poetry install
 $ poetry shell
 $ ./manage.py migrate
+$ ./manage.py createsuperuser
 $ ./manage.py runserver
 ```
-After running the four commands above you can point you browser [http:localhost:8000/api/docs/](http://localhost:8000/api/docs/).
+
+After running the commands above, you can point you
+browser [http:localhost:8000/api/docs/](http://localhost:8000/api/docs/).
