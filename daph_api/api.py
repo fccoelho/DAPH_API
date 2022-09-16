@@ -48,10 +48,3 @@ def upload(
     return {"name": file.name, "len": len(data)}
 
 
-###### Schemas ######
-
-
-class ManuscriptSchema(ModelSchema):
-    class Config:
-        model = Manuscript
-        model_fields = "__all__"
