@@ -3,7 +3,7 @@ This project is the data backend and web frontend of the DAPH.
 
 It is based of Django-Ninja. 
 
-to get started in development:
+to get started in development, first make sure you have [poetry](https://python-poetry.org/) installed on your computer.
 
 ```Bash
 $ poetry install
