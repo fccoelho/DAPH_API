@@ -1,6 +1,8 @@
 from ninja import NinjaAPI, Schema, File, Form
 from ninja.files import UploadedFile
 from ninja import ModelSchema
+from django.contrib.auth.models import User
+from ninja.security import django_auth
 from registry.models import Author, Manuscript
 
 
@@ -16,11 +18,16 @@ class UserDetails(Schema):
     first_name: str
     last_name: str
     email: str
+    username: str
+    password: str
 
 
 @api.post("/user")
 def create_user(request, details: UserDetails = Form(...)):
-    a = Author.objects.create(**details.dict())
+    udict = details.dict()
+    user = User.objects.create_user(**udict)
+    user.save()
+    a = Author.objects.create(**udict)
     return {"author": a.id}
 
 
@@ -41,10 +48,3 @@ def upload(
     return {"name": file.name, "len": len(data)}
 
 
-###### Schemas ######
-
-
-class ManuscriptSchema(ModelSchema):
-    class Config:
-        model = Manuscript
-        model_fields = "__all__"

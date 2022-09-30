@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.10"
 django-ninja = "web3"
 django-debug-toolbar = "^3.6.0"
+django-grappelli = "^3.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
