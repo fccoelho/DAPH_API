@@ -15,6 +15,7 @@ jobs:
       uses: snok/install-poetry@v1
       env:
         POETRY_VIRTUALENVS_CREATE: false
+    - name: Install project
       run: poetry install --no-interaction
     - name: Run black check
       run: poetry run black --check .
@@ -30,6 +31,7 @@ jobs:
       uses: snok/install-poetry@v1
       env:
         POETRY_VIRTUALENVS_CREATE: false
+    - name: Install project
       run: poetry install --no-interaction
     - name: Run flake8 check
       run: poetry run flake8 --count .
@@ -45,6 +47,7 @@ jobs:
       uses: snok/install-poetry@v1
       env:
         POETRY_VIRTUALENVS_CREATE: false
+    - name: Install project
       run: poetry install --no-interaction
     - name: Run mypy check
       run: poetry run mypy .
@@ -60,6 +63,7 @@ jobs:
       uses: snok/install-poetry@v1
       env:
         POETRY_VIRTUALENVS_CREATE: false
+    - name: Install project
       run: poetry install --no-interaction
     - name: Run pytest check
       run: poetry run pytest -vv --cov="daph_api" .
