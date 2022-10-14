@@ -3,6 +3,7 @@ from nox_poetry import Session
 from glob import glob
 from pathlib import Path
 
+
 @session(python=["3.10"])
 def tests(session):
     session.install("pytest", ".")
@@ -24,6 +25,7 @@ def coverage(session: Session) -> None:
         session.run("coverage", "combine")
 
     session.run("coverage", *args)
+
 
 @session
 def lint(session):

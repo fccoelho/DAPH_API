@@ -2,6 +2,7 @@ from ctypes import addressof
 from typing_extensions import Required
 from django.db import models
 
+
 class Author(models.Model):
     first_name = models.CharField(max_length=64, verbose_name='First Name')
     last_name = models.CharField(max_length=128, verbose_name='Last Name')
