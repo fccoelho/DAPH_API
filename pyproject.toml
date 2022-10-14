@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-django-ninja = "web3"
+django-ninja = "^0.19.1"
 django-debug-toolbar = "^3.6.0"
 django-grappelli = "^3.0.3"
 
