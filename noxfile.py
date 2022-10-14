@@ -14,7 +14,6 @@ def tests(session):
         if session.interactive:
             session.notify("coverage", posargs=[])
 
-
 @session
 def coverage(session: Session) -> None:
     """Produce the coverage report."""

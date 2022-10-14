@@ -21,6 +21,8 @@ autoflake8 = "^0.4.0"
 [tool.poetry.group.dev.dependencies]
 flake8 = "^5.0.4"
 mypy = "^0.982"
+coverage = "^6.5.0"
+pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
