@@ -1,8 +1,15 @@
 from ninja import NinjaAPI, Schema, File, Form
 from ninja.files import UploadedFile
 from django.contrib.auth.models import User
+from django.conf import settings
 from registry.models import Author, Manuscript
+from web3 import Web3, EthereumTesterProvider
 
+if settings.DEBUG:
+    w3 = Web3(EthereumTesterProvider())
+else:
+    w3 = Web3(Web3.HTTPProvider(
+        'https://goerli.infura.io/v3/8f62d68e09944a559e788e8f73a7f4ed'))
 
 api = NinjaAPI(csrf=True)
 
