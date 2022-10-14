@@ -6,7 +6,7 @@ authors = ["fccoelho <fccoelho@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 django-ninja = "^0.19.1"
 django-debug-toolbar = "^3.6.0"
 django-grappelli = "^3.0.3"
@@ -17,6 +17,10 @@ nox = "^2022.8.7"
 nox-poetry = "^1.0.1"
 black = "^22.8.0"
 autoflake8 = "^0.4.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^5.0.4"
+mypy = "^0.982"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

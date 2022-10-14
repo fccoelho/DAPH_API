@@ -1,8 +1,6 @@
 from ninja import NinjaAPI, Schema, File, Form
 from ninja.files import UploadedFile
-from ninja import ModelSchema
 from django.contrib.auth.models import User
-from ninja.security import django_auth
 from registry.models import Author, Manuscript
 
 
@@ -46,5 +44,3 @@ def upload(
     m = Manuscript.objects.create(title=mdet["title"])
     m.author.add(a.id)
     return {"name": file.name, "len": len(data)}
-
-
