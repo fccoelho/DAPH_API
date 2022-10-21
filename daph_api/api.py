@@ -31,15 +31,17 @@ class UserDetails(Schema):
 def create_user(request, details: UserDetails = Form(...)):
     udict = details.dict()
     user = User.objects.create_user(**udict)
+    user.save()
     wallet_address = '0x26Ebb006D2FAe4eEF7e432b47f44ae93Bb223CA7'
     WalletAddress.objects.create(user_id=user, wallet_address=wallet_address)
     author = Author.objects.create(user_id=user)
+    author.save()
     return {"author": author.id}
 
 
 class ManuscriptDetails(Schema):
     title: str
-    author_email: str
+    username: str
 
 
 @api.post("/upload")
@@ -48,7 +50,7 @@ def upload(
 ):
     data = file.read()
     mdet = details.dict()
-    user = User.objects.get(email=mdet["author_email"])
+    user = User.objects.get(username=mdet["username"])
     author = Author.objects.get(user_id=user)
     manuscript = Manuscript.objects.create(title=mdet["title"])
     manuscript.authors.add(author.id)
