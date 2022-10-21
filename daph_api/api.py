@@ -2,7 +2,7 @@ from ninja import NinjaAPI, Schema, File, Form
 from ninja.files import UploadedFile
 from django.contrib.auth.models import User
 from django.conf import settings
-from registry.models import Author, Manuscript
+from registry.models import Author, Manuscript, WalletAddress
 from web3 import Web3, EthereumTesterProvider
 
 if settings.DEBUG:
@@ -31,9 +31,10 @@ class UserDetails(Schema):
 def create_user(request, details: UserDetails = Form(...)):
     udict = details.dict()
     user = User.objects.create_user(**udict)
-    user.save()
-    a = Author.objects.create(**udict)
-    return {"author": a.id}
+    wallet_address = '0x26Ebb006D2FAe4eEF7e432b47f44ae93Bb223CA7'
+    WalletAddress.objects.create(user_id=user, wallet_address=wallet_address)
+    author = Author.objects.create(user_id=user)
+    return {"author": author.id}
 
 
 class ManuscriptDetails(Schema):
@@ -47,7 +48,8 @@ def upload(
 ):
     data = file.read()
     mdet = details.dict()
-    a = Author.objects.get(email=mdet["author_email"])
-    m = Manuscript.objects.create(title=mdet["title"])
-    m.author.add(a.id)
+    user = User.objects.get(email=mdet["author_email"])
+    author = Author.objects.get(user_id=user)
+    manuscript = Manuscript.objects.create(title=mdet["title"])
+    manuscript.authors.add(author.id)
     return {"name": file.name, "len": len(data)}
