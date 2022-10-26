@@ -12,7 +12,7 @@ class Author(models.Model):
 
 class Manuscript(models.Model):
     title = models.CharField(max_length=200)
-    date_submission = models.DateTimeField('Date Submission', auto_now_add=True)
+    date_submission = models.DateTimeField('Date Submission')
     authors = models.ManyToManyField(Author)
     file = models.FileField(verbose_name='Manuscript file')
 

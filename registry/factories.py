@@ -1,5 +1,6 @@
 import factory
 from factory.django import DjangoModelFactory
+from datetime import timezone
 
 from .models import Article, Author, Manuscript
 
@@ -17,7 +18,7 @@ class ManuscriptFactory(DjangoModelFactory):
         model = Manuscript
 
     title = factory.Faker('sentence')
-    date_submission = factory.Faker('date_time')
+    date_submission = factory.Faker('date_time_this_year', tzinfo=timezone.utc)
     file = factory.Faker('file_path', extension='pdf')
 
     @factory.post_generation

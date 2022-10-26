@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from registry.models import Author, Manuscript
 from web3 import Web3, EthereumTesterProvider
+from .manuscript.api import router as manuscript_router
 
 if settings.DEBUG:
     w3 = Web3(EthereumTesterProvider())
@@ -12,7 +13,7 @@ else:
         'https://goerli.infura.io/v3/8f62d68e09944a559e788e8f73a7f4ed'))
 
 api = NinjaAPI(csrf=True)
-
+api.add_router('/manuscript', manuscript_router)
 
 @api.get("/hello")
 def hello(request):
