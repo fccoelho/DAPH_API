@@ -25,6 +25,7 @@ class Review(models.Model):
     manuscript_id = models.ForeignKey(Manuscript, on_delete=models.CASCADE)
     file = models.FileField(verbose_name='Review file')
     status = models.CharField(max_length=50, choices = [('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending')
-
+    date_submission = models.DateTimeField('Date Submission', auto_now_add=True)
+    
 class Article(models.Model):
     manuscript = models.ForeignKey(Manuscript, on_delete=models.CASCADE)
