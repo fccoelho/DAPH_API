@@ -16,7 +16,7 @@ class SearchQuery(Schema):
 class AuthorSchema(ModelSchema):
     class Config:
         model = Author
-        model_fields = ["id", "first_name", "last_name"]
+        model_fields = ["id", "user_id", "is_reviewer"]
 
 class ManuscriptSchema(ModelSchema):
     authors: List[AuthorSchema] = []
