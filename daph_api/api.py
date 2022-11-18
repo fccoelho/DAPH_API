@@ -2,9 +2,7 @@ from ninja import NinjaAPI, Schema, File, Form
 from ninja.files import UploadedFile
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.shortcuts import get_object_or_404
 from registry.models import Author, Manuscript, WalletAddress
-from typing import List
 from web3 import Web3, EthereumTesterProvider
 from .manuscript.api import router as manuscript_router
 
@@ -34,15 +32,18 @@ class UserDetails(Schema):
 def create_user(request, details: UserDetails = Form(...)):
     udict = details.dict()
     user = User.objects.create_user(**udict)
-    author = Author.objects.create(user_id=user, is_reviewer=False)
+    user.save()
     wallet_address = '0x26Ebb006D2FAe4eEF7e432b47f44ae93Bb223CA7'
-    WalletAddress.objects.create(author_id=author, wallet_address=wallet_address)
+    WalletAddress.objects.create(user_id=user, wallet_address=wallet_address)
+    author = Author.objects.create(user_id=user)
+    author.save()
     return {"author": author.id}
 
 
 class ManuscriptDetails(Schema):
     title: str
-    authors: List[str]
+    username: str
+
 
 @api.post("/upload")
 def upload(
@@ -50,13 +51,8 @@ def upload(
 ):
     data = file.read()
     mdet = details.dict()
-    authors = mdet['authors'][0].split(',')
-    title = mdet['title']
-    author_ids = []
-    for author in authors:
-        author_ids.append(get_object_or_404(Author, user_id__username=author).id)
-    
-    author_ids = list(dict.fromkeys(author_ids))
-    manuscript = Manuscript.objects.create(title=title, file=file)
-    manuscript.authors.set(author_ids)
-    return {"manuscript": manuscript.id, "authors": author_ids}
+    user = User.objects.get(username=mdet["username"])
+    author = Author.objects.get(user_id=user)
+    manuscript = Manuscript.objects.create(title=mdet["title"])
+    manuscript.authors.add(author.id)
+    return {"name": file.name, "len": len(data)}
