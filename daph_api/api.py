@@ -7,6 +7,7 @@ from registry.models import Author, Manuscript, WalletAddress
 from typing import List
 from web3 import Web3, EthereumTesterProvider
 from .manuscript.api import router as manuscript_router
+from django.http import HttpResponse
 
 if settings.DEBUG:
     w3 = Web3(EthereumTesterProvider())
@@ -60,3 +61,26 @@ def upload(
     manuscript = Manuscript.objects.create(title=title, file=file)
     manuscript.authors.set(author_ids)
     return {"manuscript": manuscript.id, "authors": author_ids}
+
+@api.patch("/buy/{author_id}/{amount}")
+def add_balance(request, author_id: int, amount: int):
+    author = get_object_or_404(Author, id=author_id)
+    author.balance += amount
+    author.save()
+
+    return {"balance": author.balance}
+
+@api.patch("/pay/{author_id}/{amount}")
+def pay_balance(request, author_id: int, amount: int):
+    author = get_object_or_404(Author, id=author_id)
+    if author.balance < amount:
+        return HttpResponse(status=400, content="Insufficient balance")
+    author.balance -= amount
+    author.save()
+
+    return {"balance": author.balance}
+
+@api.get("/balance/{author_id}")
+def get_balance(request, author_id: int):
+    author = get_object_or_404(Author, id=author_id)
+    return {"balance": author.balance}

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class Author(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     is_reviewer = models.BooleanField(default=False)
+    balance = models.IntegerField(default=0)
 
 class WalletAddress(models.Model):
     author_id = models.ForeignKey(Author, on_delete=models.CASCADE, null = True)
