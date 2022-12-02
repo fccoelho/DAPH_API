@@ -52,7 +52,6 @@ submit_manuscript_contract_abi = [
     }
 ]
 
-
 @router.post("/upload", auth=django_auth)
 def create(request, title: str = Form(...), file: UploadedFile = File(...)):
     id, path = upload_file(file.read())
