@@ -1,11 +1,9 @@
 from typing import List
 from ninja import Router, File, Form
 from ninja.pagination import paginate, PageNumberPagination
-from registry.models import Author, Manuscript
 from ninja import Query, Schema, ModelSchema
 from ninja.files import UploadedFile
-from django.contrib.auth.models import User
-from registry.models import Author, Manuscript
+from registry.models import Author, Manuscript, WalletAddress
 from ninja.security import django_auth
 from ..file.upload import upload_file
 from datetime import datetime
@@ -53,7 +51,7 @@ submit_manuscript_contract_abi = [
 ]
 
 @router.post("/upload", auth=django_auth)
-def create(request, title: str = Form(...), file: UploadedFile = File(...)):
+def create(request, title: str = Form(...), address: str = Form(...), file: UploadedFile = File(...)):
     id, path = upload_file(file.read())
 
     author = Author.objects.get(user_id=request.auth)
@@ -61,6 +59,6 @@ def create(request, title: str = Form(...), file: UploadedFile = File(...)):
     manuscript.authors.add(author.id)
 
     dpublish_contract = w3.eth.contract(address="<DPUPLISH_CONTRACT_ADDRESS", abi=submit_manuscript_contract_abi)
-    tx = dpublish_contract.functions.submit_manuscript(id).transact({"from": author.address})
+    tx = dpublish_contract.functions.submit_manuscript(id).transact({"from": address})
 
     return {"file_path": path, "transaction": tx.hex()}
