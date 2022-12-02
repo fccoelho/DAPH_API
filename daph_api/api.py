@@ -3,10 +3,11 @@ from ninja.files import UploadedFile
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from registry.models import Author, Manuscript, WalletAddress
+from registry.models import Author, Manuscript, WalletAddress, Review
 from typing import List
 from web3 import Web3, EthereumTesterProvider
 from .manuscript.api import router as manuscript_router
+from django.http import HttpResponse
 
 if settings.DEBUG:
     w3 = Web3(EthereumTesterProvider())
@@ -60,3 +61,16 @@ def upload(
     manuscript = Manuscript.objects.create(title=title, file=file)
     manuscript.authors.set(author_ids)
     return {"manuscript": manuscript.id, "authors": author_ids}
+
+
+@api.post("/upload_review")
+def upload_review(
+    request, manuscript_id: int = Form(...), file: UploadedFile = File(...), author_id: int = Form(...)
+):
+    data = file.read()
+    author = get_object_or_404(Author, id=author_id)
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id)
+    if not manuscript:
+        return HttpResponse(status=400, content="Manuscript not found")
+    review = Review.objects.create(author_id=author, manuscript_id=manuscript, file=file)
+    return {"review": review.id, "manuscript": manuscript_id, "author": author_id}
