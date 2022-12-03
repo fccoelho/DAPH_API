@@ -36,7 +36,25 @@
     }
 </style>
 
-# Documentações do projeto
+# Documentações do projeto 
+# Avaliações das revisões
+
+## Introdução
+
+Neste projeto, anseia-se desenvolver um método para a avaliação das revisões feitas nos artigos submetidos na plataforma DAPH (_Decentralized Autonomous Publishing House_), considerando que isso é de suma importância para a validação dos artigos e do funcionamento da proposta de solução para a comunicação científica de maneira descentralizada. 
+
+Essas avaliações são, resumidamente, "notas" que os usuários da plataforma vão poder atribuir às revisões feitas em cada artigo, de forma que seja feita uma classificação (e desclassificação) das revisões assim como dos revisores com base numa média ponderada dessas notas.
+
+Nesse contexto, isso deve ser implementado na parte de _software_ no _back-end_ (a lógica que rege como as avaliações interagem com o sistema) e no _front-end_ (a apresentação interativa para o usuário final) da plataforma para que a funcionalidade seja incorporada no resultado final para os usuários possam utilizar.
+
+
+## Especificações
+  
+Têm-se em vista que a avaliação das revisões deve ser de tal forma que não somente crie um _ranking_ das avaliações em ordem de importância (ou qualidade de avaliação, a depender da interpretação) mas também possa "desclassificar" revisões tendenciosas (conluios, rivalidades e outras formas de viés que prejudiquem o método científico). Isto é, é importante se atentar que uma revisão mal avaliada possa, em certos casos, levá-la a não ser considerada para o aprimoramento e a aprovação do artigo, assim como também isso impacta na classificação de participação e importância dos próprios revisores (dado que a classificação desses membros é parte fundamental para a que eles alcancem o _status_ de revisor - _reviewers_).
+  
+Dessa forma, é razoável que avaliação da revisão seja feita não apenas de forma binária, como "aprovado" e "não aprovado", ou "_upvote_" e "_downvote_", mas que possa ser atribuída uma "nota" numa escala (discreta, mas  que possa ser convertida em contínua) como um número inteiro (ou com uma casa decimal, possivelmente aceitando apenas 0 ou 5 - representando "meio ponto" na nota) no intervalo fechado de 0 (zero) a 10 (dez), de forma que seria possível calcular uma média ponderada das avaliações, com os pesos sendo as classificação de participação de cada usuário que avaliou.
+
+Além disso, por fim, é razoável que uma avaliação no contexto científico venha acompanhada de justificativas e não apenas seja realizada de forma completamente arbitrária e não auditável. Nesse sentido, as avaliações devem vir acompanhadas de comentários (textuais) que descrevem o motivo da nota que foi atribuída, para que seja possível que outros usuários reportem uma avaliação tendenciosa (como descrito para o caso de revisões tendenciosas) e ela seja desconsiderada.  
 
 ## Avaliações das revisões
 No contexto de avaliações das revisões, devemos levar em conta diversos fatores, como serão melhor descritos a seguir.
