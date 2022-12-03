@@ -44,7 +44,7 @@ No contexto de avaliações das revisões, devemos levar em conta diversos fator
 O cálculo para as avalaliações das revisões e reputações dos usuários foi desenvolvido a partir das características do projeto. Nesse sentido, foi pesquisado como funciona a [reputação do stack overflow](https://stackoverflow.com/help/whats-reputation), porém acreditamos que o método utilizado nesse caso deve ser diferente, principalmente pela pouca valorização a qualidade das insterações dos usuários (no geral, a reputação do stack overflow valoriza mais a quantidade de interações positivas, e não muito a qualidade de cada interação), o que acreditamos que não seja o melhor quando se trata de avaliarmos os manuscritos, as revisões e os usuários com uma metodologia científica.
 
 ### Reputação dos usuários
-Os cálculos a respeito das pontuações (reputação, _score_) de cada usuário serão feitos a partir:
+Sugerimos que os cálculos a respeito das pontuações (reputação, _score_) de cada usuário sejam feitos a partir:
 + Das pontuações dos manuscritos submetidos, e
 + Das pontuações das revisões.
 
@@ -72,7 +72,7 @@ Onde temos:
 <!-- Com isso, cada usuário deverá ter pontuações distintas, cada uma com respeito a cada um dos itens acima. Isso deve ser feito para distinguirmos futuramente os pesos nas distruibuições -->
 
 ### Pontuação dos manuscritos
-A pontuação dos manuscritos deve ser calculada da forma: 
+A pontuação dos manuscritos deve ser calculada como uma média aritimética, da forma: 
 $$
 P_{M_i} =
 \frac
@@ -84,9 +84,8 @@ P_{M_i} =
 $$
 
 Onde temos:
-+ $P_{M_i}
-+ $P_{R_i}$: pontuação da revisão
-+ $N_R$: número de revisões
++ $P_{R_i}$: pontuação das revisões que estabeleceram os critérios mínimos e (ou) foram consideradas realmente.
++ $N_R$: número de revisões que satisfaçam como acima
 
 ### Pontuação das revisões
 Por sua vez, o cálculo das pontuações das revisões deve uma média ponderada com os pesos sendo as reputações dos usuários que avaliaram. De forma que:
@@ -94,16 +93,21 @@ $$
 P_{R_i} =
 \frac
 {
-    \sum\limits_{i = 1}^{N_A} P_{A_i} \cdot R_{A_i}  
+    \sum\limits_{i = 1}^{N_A} P_{A_i} \cdot N_{A_i}  
 }{
-    \sum\limits_{i = 1}^{N_A} R_{A_i} 
+    \sum\limits_{i = 1}^{N_A} N_{A_i} 
 }
 $$
 
+Onde temos:
++ $P_{A_i}$: pontuação da avaliação
++ $N_{A_i}$: número de avaliações
 
 
 ### Aprovação de revisões
 Para cada manuscrito submetido, devemos ter 2 revisores, isto é, duas revisões aprovadas que o autor vai receber como válidas, dessa maneira, devemos ter um critério de aprovação (ou reprovação) de revisões.
+
+Caso não existam revisões suficientes que satisfaçam os critérios mínimos, pegamos o restante pela ordem de pontuação das revisões.
 #### Número mínimo de avaliações
 Devemos, em primeiro lugar, considerar que caso um manuscrito receba muitas revisões e cada revisão receba muitas avaliações, devemos priorizar as revisões que possuam um número razoável de avaliações, pois podemos entender que ela passou pela aprovação de mais pessoas para ser considerada boa. Assim, devemos levar em consideração um número mínimo (absoluto ou percentual) de avaliações para uma revisões ser aprovada.
 
