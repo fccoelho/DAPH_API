@@ -14,7 +14,7 @@ else:
     w3 = Web3(Web3.HTTPProvider(
         'https://goerli.infura.io/v3/8f62d68e09944a559e788e8f73a7f4ed'))
 
-api = NinjaAPI(csrf=True)
+api = NinjaAPI(csrf=False)
 api.add_router('/manuscript', manuscript_router)
 
 @api.get("/hello")
