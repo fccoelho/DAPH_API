@@ -56,7 +56,8 @@ def upload(
     for author in authors:
         author_ids.append(get_object_or_404(Author, user_id__username=author).id)
     
+    version = 1 + Manuscript.objects.filter(title = title).count()
     author_ids = list(dict.fromkeys(author_ids))
-    manuscript = Manuscript.objects.create(title=title, file=file)
+    manuscript = Manuscript.objects.create(title=title, file=file, version=version)
     manuscript.authors.set(author_ids)
     return {"manuscript": manuscript.id, "authors": author_ids}
