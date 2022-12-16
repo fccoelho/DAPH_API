@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Home page</h1>
+    {% if user.is_authenticated %}
+    <div class="home">
+
+        Hi {{ user.username }}!
+
+        
+        <p><a class="icon-label submit-article" href="{% url 'demo-upload' %}"><span class="material-symbols-sharp">article</span>
+            submit article</a></p>
+
+        <p><a class="icon-label" href="{% url 'logout' %}"><span class="material-symbols-sharp">logout</span>
+            Log Out</a></p>
+    </div>
+
+    {% else %}
+        <p>You are not logged in</p>
+        <a class="icon-label" href="{% url 'login' %}"><span class="material-symbols-sharp">login</span>
+            Log In</a>
+        <a class="icon-label" href="{% url 'demo-sign-up' %}"><span class="material-symbols-sharp">person_add</span>Sign-up</a>
+    {% endif %}
+{% endblock %}

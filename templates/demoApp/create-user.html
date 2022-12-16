@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}User creation{% endblock %}
+
+{% block content %}
+    <h2>Sign-Up</h2>
+
+    <form action="../../api/user" method="post">
+        {% csrf_token %}
+        <label for="first_name">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name"><br>
+        <label for="last_name">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name"><br>
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <button type="submit">Submit</button>
+    </form> 
+
+    <div id="response-container">
+        <!-- The response from the API will be displayed here -->
+    </div>
+
+    <script>
+        API_URL = "../../api/"
+        const form = document.querySelector('form');
+        const responseContainer = document.getElementById('response-container');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = new FormData(form);
+            const xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action);
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    responseContainer.innerHTML = "<b>Usuário criado com sucesso</b> <span style='color: #999'>"+xhr.responseText+"</span>";
+                    // go back to the demo-index page
+                    setTimeout(function(){ window.location.href
+                        = "{% url 'demo-index' %}"; }, 2000);
+                } else {
+                    console.log(xhr)
+                    responseContainer.innerHTML = `Error ${xhr.status}: ${xhr.statusText}`;
+                }
+            };
+            xhr.send(data);
+        });
+    </script>
+{% endblock %}

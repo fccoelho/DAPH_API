@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from daph_api.api import api
 
-
 urlpatterns = [
     path("grappelli/", include("grappelli.urls")),  # grappelli URLS
     path("admin/", admin.site.urls),
     path("api/", api.urls),
+    path("demo/", include("demoApp.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
