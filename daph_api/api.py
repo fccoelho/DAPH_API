@@ -32,6 +32,7 @@ class UserDetails(Schema):
 
 @api.post("/user")
 def create_user(request, details: UserDetails = Form(...)):
+    print(request, " _____________ ", details)
     udict = details.dict()
     user = User.objects.create_user(**udict)
     author = Author.objects.create(user_id=user, is_reviewer=False)
@@ -53,6 +54,7 @@ def upload(
     authors = mdet['authors'][0].split(',')
     title = mdet['title']
     author_ids = []
+    print(" >>> ",authors)
     for author in authors:
         author_ids.append(get_object_or_404(Author, user_id__username=author).id)
     

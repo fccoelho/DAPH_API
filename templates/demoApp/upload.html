@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Article Upload{% endblock %}
+
+{% block content %}
+  <h2>Upload</h2>
+  <form action="../../api/upload" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label>Manuscript Title:</label><br>
+    <input type="text" name="title"><br>
+    <label>Upload File:</label><br>
+    <input type="file" name="file"><br><br>
+
+    <label>Authors:</label><br>
+    <input type="text" name="authors"><br>
+    
+      
+
+    <button type="submit">Upload</button>
+  </form>
+
+    <div id="response-container">
+        <!-- The response from the API will be displayed here -->
+    </div>
+
+    <script>
+        const form = document.querySelector('form');
+        const responseContainer = document.getElementById('response-container');
+
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const data = new FormData(form);
+            const xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action);
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    responseContainer.innerHTML = "<b>Upload com sucesso</b> <span style='color: #999'>"+xhr.responseText+"</span>";
+                    console.log(xhr)
+                } else {
+                    console.log(xhr)
+                    responseContainer.innerHTML = `Error ${xhr.status}: ${xhr.statusText}`;
+                }
+            };
+            xhr.send(data);
+        });
+    </script>
+{% endblock %}
